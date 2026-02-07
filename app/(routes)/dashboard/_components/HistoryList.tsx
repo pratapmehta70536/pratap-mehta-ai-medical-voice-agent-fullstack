@@ -1,10 +1,18 @@
 "use client"
+import AddNewSessionDialog from '@/app/(routes)/dashboard/_components/AddNewSessionDialog'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function HistoryList() {
   const [historyList, setHistoryList] = useState([])
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <div className="mt-10">
@@ -24,10 +32,7 @@ function HistoryList() {
           <p className="text-sm text-gray-500 max-w-md">
             It looks like you haven't consulted with any doctors yet.
           </p>
-
-          <Button className="mt-2 w-full sm:w-auto">
-            + Start a Consultation
-          </Button>
+          <AddNewSessionDialog />
         </div>
       ) : (
         <div>List</div>

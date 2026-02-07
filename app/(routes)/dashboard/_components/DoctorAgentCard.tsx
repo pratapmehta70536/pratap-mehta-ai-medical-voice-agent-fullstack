@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { IconArrowRight } from '@tabler/icons-react'
 import React from 'react'
 
-type doctorAgent = {
+export type doctorAgent = {
   id: number
   specialist: string
   description: string
@@ -34,7 +34,7 @@ function DoctorAgentCard({ doctorAgent }: Props) {
         {doctorAgent.description}
       </p>
 
-      <Button className="w-full mt-3 flex items-center justify-center gap-2 text-sm">
+      <Button className="w-full mt-3 flex items-center justify-center gap-2 text-sm h-auto py-2">
         Start Consultation
         <IconArrowRight size={16} />
       </Button>

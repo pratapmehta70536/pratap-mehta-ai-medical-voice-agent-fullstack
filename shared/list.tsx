@@ -56,7 +56,7 @@ export const AIDoctorAgents = [
     {
         id: 7,
         specialist: "ENT Specialist",
-        description: "Handles ear, nose, and throat-related problems.",
+        description: "Handles ear, nose,head, neck and throat-related problems.",
         image: "/doctor7.png",
         agentPrompt: "You are a friendly ENT AI. Ask quickly about ENT symptoms and give simple, clear suggestions.",
         voiceId: "ayla",

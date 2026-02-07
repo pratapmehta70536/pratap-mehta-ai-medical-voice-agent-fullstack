@@ -31,7 +31,7 @@ function MedicalVoiceAgent() {
   }
   return (
     <div className='mt-10 p-5 border rounded-3xl bg-secondary'>
-      <div className='mt-10 pl-20 pr-20 pr-20 flex justify-between'>
+      <div className='mt-10 pl-20 pr-20 flex justify-between'>
         <h2 className='p-1 px-2 border rounded-md flex gap-2 items-center'><Circle className='h-4' /> Not Connected </h2>
         <h2 className='font-bold text-xl text-gray-400'>00:00</h2>
       </div>

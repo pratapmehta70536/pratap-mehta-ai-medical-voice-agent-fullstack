@@ -53,7 +53,7 @@ export default function Home() {
           className="mt-8 flex justify-center"
         >
           <Link href="/dashboard" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-blue-600 to-green-600 px-8 py-3 font-semibold text-white shadow-lg transition hover:scale-105">
+            <button className="w-full sm:w-auto rounded-xl bg-linear-to-r from-blue-600 to-green-600 px-8 py-3 font-semibold text-white shadow-lg transition hover:scale-105">
               Get Started
             </button>
           </Link>
@@ -82,7 +82,7 @@ const Navbar = () => {
       {/* Right Section */}
       {!user ? (
         <Link href="/sign-in">
-          <button className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 px-5 py-2 text-sm sm:text-base font-semibold text-white shadow-md transition hover:scale-105">
+          <button className="rounded-xl bg-linear-to-r from-purple-600 to-pink-500 px-5 py-2 text-sm sm:text-base font-semibold text-white shadow-md transition hover:scale-105">
             Login
           </button>
         </Link>
@@ -90,7 +90,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3 sm:gap-5">
           <UserButton />
           <Link href="/dashboard">
-            <Button className="rounded-xl cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 text-sm sm:text-base">
+            <Button className="rounded-xl cursor-pointer bg-linear-to-r from-blue-600 to-indigo-600 text-sm sm:text-base">
               Dashboard
             </Button>
           </Link>

@@ -4,11 +4,12 @@ import { IconArrowRight } from '@tabler/icons-react'
 import React from 'react'
 
 export type doctorAgent = {
-  id: number
-  specialist: string
-  description: string
-  image: string
-  agentPrompt: string
+  id: number,
+  specialist: string,
+  description: string,
+  image: string,
+  agentPrompt: string,
+  voiceId?: string
 }
 
 type Props = {
@@ -34,10 +35,7 @@ function DoctorAgentCard({ doctorAgent }: Props) {
         {doctorAgent.description}
       </p>
 
-      <Button className="w-full mt-3 flex items-center justify-center gap-2 text-sm h-auto py-2">
-        Start Consultation
-        <IconArrowRight size={16} />
-      </Button>
+     
     </div>
   )
 }

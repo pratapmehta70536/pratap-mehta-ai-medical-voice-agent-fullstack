@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { doctorAgent } from "../../_components/DoctorAgentCard";
-import { Circle, PhoneCall, PhoneOff } from "lucide-react";
+import { Circle, Loader2Icon, PhoneCall, PhoneOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
@@ -30,6 +30,7 @@ function MedicalVoiceAgent() {
   const [sessionDetail, setSessionDetail] = useState<SessionDetail>();
   const [callStarted, setCallStarted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [currentRole, setCurrentRole] = useState<string | null>(null);
   const [liveTranscript, setLiveTranscript] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -139,7 +140,7 @@ function MedicalVoiceAgent() {
     });
   };
 
-  const stopCall = async() => {
+  const stopCall = async () => {
     setLoading(true);
     if (!vapiRef.current) return;
 
@@ -149,7 +150,10 @@ function MedicalVoiceAgent() {
     setCallStarted(false);
     setLiveTranscript("");
     setCurrentRole(null);
+
+    setIsGeneratingReport(true);
     const result = await GenerateReport();
+    setIsGeneratingReport(false);
 
     setLoading(false);
 
@@ -157,8 +161,8 @@ function MedicalVoiceAgent() {
     router.replace('/dashboard');
   };
 
-  const GenerateReport=async() => {
-    const result = await axios.post('/api/medical-report',{
+  const GenerateReport = async () => {
+    const result = await axios.post('/api/medical-report', {
       messages: messages,
       sessionDetail: sessionDetail,
       sessionId: sessionId
@@ -169,13 +173,19 @@ function MedicalVoiceAgent() {
   }
 
   return (
-    <div className="mt-10 p-5 border rounded-3xl bg-secondary">
+    <div className="mt-10 p-5 border rounded-3xl bg-secondary relative">
+      {isGeneratingReport && (
+        <div className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center rounded-3xl">
+          <Loader2Icon className="h-12 w-12 animate-spin text-primary mb-4" />
+          <h2 className="text-xl font-bold animate-pulse text-primary">Preparing your Medical Report...</h2>
+          <p className="text-sm text-gray-500 mt-2">Please wait while our AI analyzes the consultation.</p>
+        </div>
+      )}
       <div className="mt-10 pl-20 pr-20 flex justify-between">
         <h2 className="p-1 px-2 border rounded-md flex gap-2 items-center">
           <Circle
-            className={`h-4 w-4 rounded-full ${
-              callStarted ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`h-4 w-4 rounded-full ${callStarted ? "bg-green-500" : "bg-red-500"
+              }`}
           />
           {callStarted ? "Connected.." : "Not Connected"}
         </h2>

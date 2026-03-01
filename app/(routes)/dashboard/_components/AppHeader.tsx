@@ -5,8 +5,8 @@ import React from 'react'
 
 const menuOptions = [
   { id: 1, name: 'Home', path: '/dashboard' },
-  { id: 2, name: 'History', path: '/dashboard/history' }, // Assuming history is also under dashboard, or just /history if root
-  { id: 3, name: 'Pricing', path: '/pricing' },
+  { id: 2, name: 'History', path: '/dashboard/history'}, 
+  { id: 3, name: 'Pricing', path: '/dashboard/billing' },
   { id: 4, name: 'Profile', path: '/dashboard/profile' },
 ]
 

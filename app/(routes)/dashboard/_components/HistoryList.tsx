@@ -2,6 +2,7 @@
 import AddNewSessionDialog from '@/app/(routes)/dashboard/_components/AddNewSessionDialog'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
+import { Loader2Icon } from 'lucide-react'
 import Image from 'next/image'
 import React, { use, useEffect, useState } from 'react'
 import HistoryTable from './HistoryTable'
@@ -10,6 +11,7 @@ import { SessionDetail } from '../medical-agent/[sessionId]/page'
 
 function HistoryList() {
   const [historyList, setHistoryList] = useState<SessionDetail[]>([])
+  const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -17,9 +19,11 @@ function HistoryList() {
   }, [])
 
   const GetHistoryList = async () => {
+    setLoading(true);
     const result = await axios.get("/api/session-chat?sessionId=all");
     console.log(result.data);
     setHistoryList(result.data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -30,7 +34,12 @@ function HistoryList() {
 
   return (
     <div className="mt-10">
-      {historyList.length === 0 ? (
+      {loading ? (
+        <div className="flex flex-col items-center justify-center p-20">
+          <Loader2Icon className="h-10 w-10 animate-spin text-primary" />
+          <h2 className="mt-4 text-gray-500 animate-pulse">Fetching your history...</h2>
+        </div>
+      ) : historyList.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 p-6 border-2 border-dashed rounded-2xl text-center">
           <Image
             src="/medical-assistance.png"

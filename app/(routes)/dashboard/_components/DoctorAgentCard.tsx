@@ -1,7 +1,14 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { IconArrowRight } from '@tabler/icons-react'
-import React from 'react'
+import React, { useState } from 'react'
+import { Loader2, Loader2Icon } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { useAuth } from '@clerk/nextjs'
+import axios from 'axios'
+import { useRouter } from "next/navigation";
 
 export type doctorAgent = {
   id: number,
@@ -9,7 +16,8 @@ export type doctorAgent = {
   description: string,
   image: string,
   agentPrompt: string,
-  voiceId?: string
+  voiceId?: string,
+  subscriptionRequired: boolean
 }
 
 type Props = {
@@ -17,8 +25,36 @@ type Props = {
 }
 
 function DoctorAgentCard({ doctorAgent }: Props) {
+
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { has } = useAuth();
+  //@ts-ignore
+  const paidUser = has && has({ plan: `pro` })
+  console.log(paidUser)
+
+  const onStartConsultation = async () => {
+    setLoading(true);
+    //Save all info to database
+    const result = await axios.post('/api/session-chat', {
+      notes: 'New Query',
+      selectedDoctor: doctorAgent
+    });
+
+    console.log(result.data);
+    if (result.data?.sessionId) {
+      console.log(result.data.sessionId);
+      //Route new Conversation Screen
+      router.push('/dashboard/medical-agent/' + result.data.sessionId);
+    }
+    setLoading(false);
+  }
+
   return (
-    <div className="border rounded-2xl p-3 hover:shadow-md transition">
+    <div className="border rounded-2xl p-3 hover:shadow-md transition relative">
+      {doctorAgent.subscriptionRequired && !paidUser && <Badge className='absolute m-3 right-0'>
+        Premium
+      </Badge>}
       <Image
         src={doctorAgent.image}
         alt={doctorAgent.specialist}
@@ -35,7 +71,9 @@ function DoctorAgentCard({ doctorAgent }: Props) {
         {doctorAgent.description}
       </p>
 
-     
+      <Button className='w-full mt-2' onClick={onStartConsultation} disabled={!paidUser && doctorAgent.subscriptionRequired}>
+
+        Start Consultation{loading ? <Loader2Icon className='animate-spin' /> : <IconArrowRight />}</Button>
     </div>
   )
 }

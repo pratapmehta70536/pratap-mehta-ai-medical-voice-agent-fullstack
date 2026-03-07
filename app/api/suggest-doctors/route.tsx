@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const { notes } = await req.json()
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-oss-120b:free",
+      model: "nvidia/nemotron-3-nano-30b-a3b:free",
       messages: [
         { role: 'system', content: JSON.stringify(AIDoctorAgents) },
         { role: "user", content: "User Notes/Symptoms:" + notes + ". Based on the symptoms, identify the two most relevant doctors from the provided list. Return ONLY a JSON array containing the numeric IDs of the two doctors. One should be 'General Physician' (ID: 1). If there is no specialist doctor for the symptom, identify 'General Physician' only. As  Example response: [1, 7]" }

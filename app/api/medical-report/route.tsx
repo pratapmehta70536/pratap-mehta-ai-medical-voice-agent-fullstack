@@ -5,7 +5,7 @@ import { AIDoctorAgents } from "@/shared/list";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-const REPORT_GEN_PROMPT=`
+const REPORT_GEN_PROMPT = `
 You are an AI Medical Voice Agent that just finished a voice conversation with a user. Based on doctor AI agent info and conversation between AI medical agent and user, generate a structured report with the following fields:
 
 1. sessionId: a unique session identifier
@@ -51,33 +51,33 @@ Only include valid fields. Respond with nothing else.
 `
 
 export async function POST(request: NextRequest) {
-    const {sessionId,sessionDetail,messages} = await request.json();
+    const { sessionId, sessionDetail, messages } = await request.json();
 
     try {
-        const UserInput="AI Doctor Agent Info:"+JSON.stringify(sessionDetail)+", Conversation:"+JSON.stringify(messages);
+        const UserInput = "AI Doctor Agent Info:" + JSON.stringify(sessionDetail) + ", Conversation:" + JSON.stringify(messages);
         const completion = await openai.chat.completions.create({
-              model: "openai/gpt-oss-120b:free",
-              messages: [
-                { role: 'system', content: REPORT_GEN_PROMPT},
+            model: "nvidia/nemotron-3-nano-30b-a3b:free",
+            messages: [
+                { role: 'system', content: REPORT_GEN_PROMPT },
                 { role: "user", content: UserInput }
-              ],
-            })
-        
-            const rawResp = completion.choices[0].message;
-            //@ts-ignore
-            const Resp = rawResp && rawResp.content.trim().replace('```json', '').replace('```', '');
-            let JSONResp = JSON.parse(Resp);
+            ],
+        })
 
-            //Save to database
-            const result = await db.update(SessionChatTable).set({
-                report: JSONResp,
-                conversation:messages  
-            }).where(eq(SessionChatTable.sessionId, sessionId));
+        const rawResp = completion.choices[0].message;
+        //@ts-ignore
+        const Resp = rawResp && rawResp.content.trim().replace('```json', '').replace('```', '');
+        let JSONResp = JSON.parse(Resp);
 
-            return NextResponse.json(JSONResp);
+        //Save to database
+        const result = await db.update(SessionChatTable).set({
+            report: JSONResp,
+            conversation: messages
+        }).where(eq(SessionChatTable.sessionId, sessionId));
+
+        return NextResponse.json(JSONResp);
     }
 
-    catch(e){
+    catch (e) {
         return NextResponse.json(e)
     }
 } 

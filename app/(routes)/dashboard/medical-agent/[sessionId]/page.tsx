@@ -189,9 +189,6 @@ function MedicalVoiceAgent() {
           />
           {callStarted ? "Connected.." : "Not Connected"}
         </h2>
-        <h2 className="font-bold text-xl text-gray-400">
-          00:00
-        </h2>
       </div>
 
       {sessionDetail?.selectedDoctor && (

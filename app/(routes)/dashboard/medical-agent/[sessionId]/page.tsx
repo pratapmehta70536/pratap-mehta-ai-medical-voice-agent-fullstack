@@ -86,8 +86,14 @@ function MedicalVoiceAgent() {
       },
     };
 
-    // @ts-ignore
-    vapi.start(VapiAgentConfig);
+    try {
+      // @ts-ignore
+      vapi.start(VapiAgentConfig);
+    } catch (e) {
+      setLoading(false);
+      console.error(e);
+      toast.error("The server is currently busy. Please try again later.");
+    }
 
     // Call started
     vapi.on("call-start", () => {
@@ -106,7 +112,9 @@ function MedicalVoiceAgent() {
     // Error
     vapi.on("error", (e: any) => {
       setLoading(false);
+      setCallStarted(false);
       console.error(e);
+      toast.error("The server is currently busy. Please try again later.");
     });
 
     // Transcripts

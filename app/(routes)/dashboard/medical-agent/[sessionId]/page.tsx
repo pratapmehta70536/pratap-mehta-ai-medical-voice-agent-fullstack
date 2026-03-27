@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { doctorAgent } from "../../_components/DoctorAgentCard";
-import { Circle, Loader2Icon, PhoneCall, PhoneOff } from "lucide-react";
+import { Circle, Loader2Icon, PhoneCall, PhoneOff, AlertTriangle } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
@@ -174,6 +174,10 @@ function MedicalVoiceAgent() {
 
   return (
     <div className="mt-10 p-5 border rounded-3xl bg-secondary relative">
+      <div className="bg-yellow-500/10 text-yellow-600 py-2 px-3 sm:px-4 rounded-xl mb-6 text-sm text-justify sm:text-center border border-yellow-500/20 flex flex-col sm:flex-row items-center sm:justify-center gap-2">
+        <AlertTriangle className="h-4 w-4 shrink-0" />
+        <p>Don&apos;t forget to make sure having good internet connection and silent environment for flawless communication. Also Keep your device near your vocal zone.</p>
+      </div>
       {isGeneratingReport && (
         <div className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center rounded-3xl">
           <Loader2Icon className="h-12 w-12 animate-spin text-primary mb-4" />
@@ -253,7 +257,9 @@ function MedicalVoiceAgent() {
               variant="destructive"
               className="mt-20"
             >
-              <PhoneOff /> Disconnect
+              <span className="flex items-center gap-2">
+                <PhoneOff /> Disconnect
+              </span>
             </Button>
           )}
         </div>

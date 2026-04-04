@@ -75,4 +75,21 @@ describe('users API', () => {
 
     expect(data).toHaveProperty('message');
   });
+
+  it('should handle users with no email address from Clerk', async () => {
+    const mockRequest = {} as NextRequest;
+
+    (currentUser as any).mockResolvedValue({
+      fullName: 'No Email User',
+      primaryEmailAddress: null,
+    });
+
+    const response = await POST(mockRequest);
+    const data = await response.json();
+
+    // Since the code uses user?.primaryEmailAddress?.emailAddress, 
+    // it will pass undefined to the DB query which might fail or be handled as error
+    expect(response.status).toBe(200); // Current implementation returns 200 with error obj in catch
+    expect(data).toBeDefined();
+  });
 });

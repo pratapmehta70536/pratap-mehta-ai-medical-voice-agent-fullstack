@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/config/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { SessionChatTable } from "@/config/schema";
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import { AIDoctorAgents } from "@/shared/list";
 import { desc, eq } from "drizzle-orm";
 

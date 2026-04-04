@@ -26,8 +26,8 @@ vi.mock('@clerk/nextjs/server', () => ({
 }));
 
 // Global mocks for Database (Drizzle)
-vi.mock('@/config/db', () => ({
-  db: {
+vi.mock('@/config/db', () => {
+  const mockDb = {
     insert: vi.fn().mockReturnThis(),
     values: vi.fn().mockReturnThis(),
     select: vi.fn().mockReturnThis(),
@@ -36,9 +36,13 @@ vi.mock('@/config/db', () => ({
     update: vi.fn().mockReturnThis(),
     set: vi.fn().mockReturnThis(),
     delete: vi.fn().mockReturnThis(),
+    orderBy: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockReturnThis(),
+    returning: vi.fn().mockResolvedValue([]),
     execute: vi.fn().mockResolvedValue([]),
-  },
-}));
+  };
+  return { db: mockDb };
+});
 
 // Global mocks for External APIs (OpenAI)
 vi.mock('@/config/OpenAiModel', () => ({

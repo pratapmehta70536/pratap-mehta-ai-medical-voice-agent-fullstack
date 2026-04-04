@@ -51,9 +51,8 @@ Only include valid fields. Respond with nothing else.
 `
 
 export async function POST(request: NextRequest) {
-    const { sessionId, sessionDetail, messages } = await request.json();
-
     try {
+        const { sessionId, sessionDetail, messages } = await request.json();
         const UserInput = "AI Doctor Agent Info:" + JSON.stringify(sessionDetail) + ", Conversation:" + JSON.stringify(messages);
         const completion = await openai.chat.completions.create({
             model: "nvidia/nemotron-3-nano-30b-a3b:free",

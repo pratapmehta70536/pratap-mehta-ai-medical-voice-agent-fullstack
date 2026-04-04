@@ -7,8 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST (req:NextRequest)
 {
-try{
     const user = await currentUser();
+try{
     //check if User Already Exist
     const users = await db.select().from(usersTable)
     //@ts-ignore

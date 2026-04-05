@@ -23,6 +23,8 @@ vi.mock('@clerk/nextjs', () => ({
   SignedIn: ({ children }: { children: React.ReactNode }) => children,
   SignedOut: ({ children }: { children: React.ReactNode }) => children,
   UserButton: () => React.createElement('div', { 'data-testid': 'user-button' }),
+  SignIn: () => React.createElement('div', { 'data-testid': 'sign-in' }),
+  SignUp: () => React.createElement('div', { 'data-testid': 'sign-up' }),
 }));
 
 // Global mock for Vapi Web SDK
